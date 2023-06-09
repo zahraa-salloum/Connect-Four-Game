@@ -44,22 +44,26 @@ const Board: FC = (): JSX.Element => {
             }
             
             setPlayer('X');
+        } else{
+            if(drawCheck()){
+                setBoard(emptyBoard);
+                setWinner('It is a Draw !!')
+                setPlayer('X');
+            }
         }
     }
 
     const checkWinningCondition = (row_index: number, slot_index: number, row_increment: number, slot_increment: number): boolean => {
         const player = board.rows[row_index].slots[slot_index].player;
         let consecutive_slots = 0;
-        let r = row_index;
-        let s = slot_index;
       
-        while (board.rows[r]?.slots[s]?.player === player) {
+        while (board.rows[row_index]?.slots[slot_index]?.player === player) {
             consecutive_slots++;
                 if (consecutive_slots >= 4) {
                     return true;
                 }
-            r += row_increment;
-            s += slot_increment;
+            row_index += row_increment;
+            slot_index += slot_increment;
         }
       
         return false;
@@ -85,6 +89,13 @@ const Board: FC = (): JSX.Element => {
       
     const checkHorizontal = (row_index: number, slot_index: number): boolean => {
         return checkWinningCondition(row_index, slot_index, 0, 1);
+    }
+
+    const drawCheck = (): boolean => {
+        const board_filled_check = board.rows.every((row) =>
+          row.slots.every((slot) => slot.player !== null)
+        )
+        return board_filled_check;
     }
 
     return (
