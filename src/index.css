@@ -12,12 +12,12 @@ code {
     monospace;
 }
 table {
-  margin: 20px auto;
+  margin: 3px auto;
   background: rgb(40, 40, 120);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   border: 1px solid rgb(160, 160, 194);
-  padding: 20px;
+  padding: 15px;
 }
 
 .empty {
@@ -28,7 +28,7 @@ table {
   height: 60px;
   width: 60px;
   border-radius: 100px;
-  margin-top: 3px;
+  margin: 1px;
 }
 
 .X {
@@ -45,26 +45,49 @@ table {
   background-color: rgb(40, 40, 120);
   width: 700px;
   height: 40px;
-  margin: -28px auto;
+  margin: -17px auto;
   color: rgb(40, 40, 120);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   border-radius: 10px 10px 0px 0px;
 }
 
-.message{
+.message_red{
   margin: 10px auto;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color: rgb(32, 228, 14);
+  font-weight: bold;
+  color: red;
 }
+
+.message_yellow{
+  margin: 5px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: yellow;
+}
+
 .title{
   margin: 2px auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 30px;
   color: rgb(40, 40, 120);
   font-weight: bold;
+}
+
+.message_reset{
+  margin: 2px auto;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(61, 175, 50);
 }

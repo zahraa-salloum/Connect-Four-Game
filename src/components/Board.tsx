@@ -7,6 +7,7 @@ import Row from './Row';
 const Board: FC = (): JSX.Element => {
     const [player, setPlayer] = useState<String>('X');
     const [winner, setWinner] = useState<String>('');
+    const [messageClass, setMessageClass] = useState('');
 
     const emptyBoard: BoardInterface = {
         rows: Array.from({ length: 6 }, (i) => ({
@@ -36,14 +37,16 @@ const Board: FC = (): JSX.Element => {
             setPlayer(player === 'X' ? 'O' : 'X');
         }
         if (checkWinningConditionAllDirections(row_index,slot_index)) {
-            setBoard(emptyBoard);
             if(player == 'X'){
-                setWinner('Red Player Won');
+                setMessageClass('message_red');
+                setWinner('Red Player Won !');
             } else if (player == 'O'){
-                setWinner('Yellow Player Won');
+                setMessageClass('message_yellow');
+                setWinner('Yellow Player Won !');
             }
-            
-            setPlayer('X');
+            setTimeout(() => {
+                Reset();
+            }, 1000);
         } else{
             if(drawCheck()){
                 setBoard(emptyBoard);
@@ -70,18 +73,47 @@ const Board: FC = (): JSX.Element => {
       
         return false;
     }
+
+    const checkMiddleWinningHorizontal = (row_index: number, slot_index: number): boolean => {
+        const player = board.rows[row_index].slots[slot_index].player;
       
+        if (board.rows[row_index]?.slots[slot_index]?.player === player && board.rows[row_index]?.slots[slot_index + 1]?.player === player && board.rows[row_index]?.slots[slot_index -1]?.player === player ) {
+            return ((board.rows[row_index]?.slots[slot_index + 2]?.player === player || board.rows[row_index]?.slots[slot_index - 2]?.player === player))
+        }
+        return false;
+    }
+
+    const checkMiddleWinningDiagonalLeft = (row_index: number, slot_index: number): boolean => {
+        const player = board.rows[row_index].slots[slot_index].player;
+      
+        if (board.rows[row_index]?.slots[slot_index]?.player === player && board.rows[row_index -1]?.slots[slot_index + 1]?.player === player && board.rows[row_index + 1]?.slots[slot_index - 1]?.player === player ) {
+            return ((board.rows[row_index - 2]?.slots[slot_index + 2]?.player === player || board.rows[row_index + 2]?.slots[slot_index - 2]?.player === player))
+        }
+        return false;
+    }
+
+    const checkMiddleWinningDiagonalRight = (row_index: number, slot_index: number): boolean => {
+        const player = board.rows[row_index].slots[slot_index].player;
+      
+        if (board.rows[row_index]?.slots[slot_index]?.player === player && board.rows[row_index + 1]?.slots[slot_index + 1]?.player === player && board.rows[row_index - 1]?.slots[slot_index -1]?.player === player ) {
+            return ((board.rows[row_index + 2]?.slots[slot_index + 2]?.player === player || board.rows[row_index - 2]?.slots[slot_index - 2]?.player === player))
+        }
+        return false;
+    }
+        
     const checkDiagonalLeft = (row_index: number, slot_index: number): boolean => {
         return (
             checkWinningCondition(row_index, slot_index, -1, 1) ||
-            checkWinningCondition(row_index, slot_index, 1, -1)
+            checkWinningCondition(row_index, slot_index, 1, -1) || 
+            checkMiddleWinningDiagonalLeft(row_index, slot_index)
         )
     }
       
     const checkDiagonalRight = (row_index: number, slot_index: number): boolean => {
         return (
             checkWinningCondition(row_index, slot_index, -1, -1) ||
-            checkWinningCondition(row_index, slot_index, 1, 1)
+            checkWinningCondition(row_index, slot_index, 1, 1) || 
+            checkMiddleWinningDiagonalRight(row_index, slot_index)
         )
     }
       
@@ -92,7 +124,8 @@ const Board: FC = (): JSX.Element => {
     const checkHorizontal = (row_index: number, slot_index: number): boolean => {
         return (
             checkWinningCondition(row_index, slot_index, 0, -1) ||
-            checkWinningCondition(row_index, slot_index, 0, 1)
+            checkWinningCondition(row_index, slot_index, 0, 1) || 
+            checkMiddleWinningHorizontal(row_index, slot_index)
         )
     }
 
@@ -112,9 +145,16 @@ const Board: FC = (): JSX.Element => {
         )
     }
 
+    const Reset = (): void =>{
+        setBoard(emptyBoard);
+        setWinner('');
+        setPlayer('X');
+    }
+
     return (
         <>
-        <div className='message'>{winner}</div>
+        <div className={messageClass}>{winner}</div>
+        <div className='message_reset' onClick={Reset}>RESET</div>
         <table>
             <tbody>
                 {board.rows.map((row: RowInterface, i: number): JSX.Element => (
