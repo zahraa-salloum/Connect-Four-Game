@@ -30,3 +30,23 @@ table {
   border-radius: 100px;
   margin-top: 3px;
 }
+
+.X {
+  background-color: red;
+  transition: background-color 0.25s;
+}
+
+.O {
+  background-color: rgb(255, 255, 0);
+  transition: background-color 0.25s;
+}
+
+.stand{
+  background-color: rgb(40, 40, 120);
+  width: 700px;
+  height: 40px;
+  margin: -28px auto;
+  color: rgb(40, 40, 120);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px 10px 0px 0px;
+}
