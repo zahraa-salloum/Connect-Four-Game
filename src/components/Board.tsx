@@ -6,6 +6,7 @@ import Row from './Row';
 
 const Board: FC = (): JSX.Element => {
     const [player, setPlayer] = useState<String>('X');
+    const [winner, setWinner] = useState<String>('');
 
     const emptyBoard: BoardInterface = {
         rows: Array.from({ length: 6 }, (i) => ({
@@ -34,10 +35,61 @@ const Board: FC = (): JSX.Element => {
             setBoard(new_board);
             setPlayer(player === 'X' ? 'O' : 'X');
         }
+        if (checkVertical(row_index, slot_index)|| checkHorizontal(row_index, slot_index)|| checkDiagonalRight(row_index, slot_index)|| checkDiagonalLeft(row_index, slot_index)) {
+            setBoard(emptyBoard);
+            if(player == 'X'){
+                setWinner('Red Player Won');
+            } else if (player == 'O'){
+                setWinner('Yellow Player Won');
+            }
+            
+            setPlayer('X');
+        }
+    }
+
+    const checkWinningCondition = (row_index: number, slot_index: number, row_increment: number, slot_increment: number): boolean => {
+        const player = board.rows[row_index].slots[slot_index].player;
+        let consecutive_slots = 0;
+        let r = row_index;
+        let s = slot_index;
+      
+        while (board.rows[r]?.slots[s]?.player === player) {
+            consecutive_slots++;
+                if (consecutive_slots >= 4) {
+                    return true;
+                }
+            r += row_increment;
+            s += slot_increment;
+        }
+      
+        return false;
+    }
+      
+    const checkDiagonalLeft = (row_index: number, slot_index: number): boolean => {
+        return (
+            checkWinningCondition(row_index, slot_index, -1, 1) ||
+            checkWinningCondition(row_index, slot_index, 1, -1)
+        )
+    }
+      
+    const checkDiagonalRight = (row_index: number, slot_index: number): boolean => {
+        return (
+            checkWinningCondition(row_index, slot_index, -1, -1) ||
+            checkWinningCondition(row_index, slot_index, 1, 1)
+        )
+    }
+      
+    const checkVertical = (row_index: number, slot_index: number): boolean => {
+        return checkWinningCondition(row_index, slot_index, 1, 0);
+    }
+      
+    const checkHorizontal = (row_index: number, slot_index: number): boolean => {
+        return checkWinningCondition(row_index, slot_index, 0, 1);
     }
 
     return (
         <>
+        <h3>{winner}</h3>
         <table>
             <tbody>
                 {board.rows.map((row: RowInterface, i: number): JSX.Element => (
