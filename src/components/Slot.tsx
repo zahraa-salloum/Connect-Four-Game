@@ -18,9 +18,12 @@ const Slot: FC<SlotProps> = ({slot, index, dropDisc}): JSX.Element => {
         slotClass = 'empty';
     }
     return (
-        <div className="slot" onClick={() => dropDisc(index)}>
-            <div className={[slotClass, "circle"].join(" ")}></div>
-        </div>
+        <td>
+            <div className="slot" onClick={() => dropDisc(index)}>
+                <div className={[slotClass, "circle"].join(" ")}></div>
+            </div>
+        </td>
+
     )
 }
 

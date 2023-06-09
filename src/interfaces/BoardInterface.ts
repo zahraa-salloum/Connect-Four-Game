@@ -1,6 +1,6 @@
 import { RowInterface } from "./RowInterface";
 
 
-export interface Board {
+export interface BoardInterface {
     rows: RowInterface[]
 }

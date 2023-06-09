@@ -10,11 +10,11 @@ interface RowProps{
 
 const Row: FC<RowProps> = ({row, dropDisc}): JSX.Element => {
     return (
-        <div>
+        <tr>
             {row.slots.map((slot: SlotInterface, i: number): JSX.Element => (
                 <Slot slot={slot} index={i} dropDisc={dropDisc} />
             ))}
-        </div>
+        </tr>
     )
 }
     

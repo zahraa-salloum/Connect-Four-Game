@@ -1,5 +1,5 @@
 
 
 export interface SlotInterface {
-    player: String
+    player: String | null
 }
