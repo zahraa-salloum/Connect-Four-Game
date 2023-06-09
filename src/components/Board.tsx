@@ -56,14 +56,16 @@ const Board: FC = (): JSX.Element => {
     const checkWinningCondition = (row_index: number, slot_index: number, row_increment: number, slot_increment: number): boolean => {
         const player = board.rows[row_index].slots[slot_index].player;
         let consecutive_slots = 0;
+        let r = row_index;
+        let s = slot_index;
       
-        while (board.rows[row_index]?.slots[slot_index]?.player === player) {
+        while (board.rows[r]?.slots[s]?.player === player) {
             consecutive_slots++;
                 if (consecutive_slots >= 4) {
                     return true;
                 }
-            row_index += row_increment;
-            slot_index += slot_increment;
+            r += row_increment;
+            s += slot_increment;
         }
       
         return false;
@@ -100,7 +102,7 @@ const Board: FC = (): JSX.Element => {
 
     return (
         <>
-        <h3>{winner}</h3>
+        <div className='message'>{winner}</div>
         <table>
             <tbody>
                 {board.rows.map((row: RowInterface, i: number): JSX.Element => (
