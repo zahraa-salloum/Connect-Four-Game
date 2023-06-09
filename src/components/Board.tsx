@@ -35,7 +35,7 @@ const Board: FC = (): JSX.Element => {
             setBoard(new_board);
             setPlayer(player === 'X' ? 'O' : 'X');
         }
-        if (checkVertical(row_index, slot_index)|| checkHorizontal(row_index, slot_index)|| checkDiagonalRight(row_index, slot_index)|| checkDiagonalLeft(row_index, slot_index)) {
+        if (checkWinningConditionAllDirections(row_index,slot_index)) {
             setBoard(emptyBoard);
             if(player == 'X'){
                 setWinner('Red Player Won');
@@ -98,6 +98,15 @@ const Board: FC = (): JSX.Element => {
           row.slots.every((slot) => slot.player !== null)
         )
         return board_filled_check;
+    }
+    
+    const checkWinningConditionAllDirections = (row_index: number, slot_index: number): boolean => {
+        return (
+          checkVertical(row_index, slot_index) ||
+          checkHorizontal(row_index, slot_index) ||
+          checkDiagonalLeft(row_index, slot_index) ||
+          checkDiagonalRight(row_index, slot_index)
+        )
     }
 
     return (
