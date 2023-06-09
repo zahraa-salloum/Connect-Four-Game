@@ -90,7 +90,10 @@ const Board: FC = (): JSX.Element => {
     }
       
     const checkHorizontal = (row_index: number, slot_index: number): boolean => {
-        return checkWinningCondition(row_index, slot_index, 0, 1);
+        return (
+            checkWinningCondition(row_index, slot_index, 0, -1) ||
+            checkWinningCondition(row_index, slot_index, 0, 1)
+        )
     }
 
     const drawCheck = (): boolean => {
