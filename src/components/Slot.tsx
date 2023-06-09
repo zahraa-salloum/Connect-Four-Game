@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Slot } from '../interfaces/Slot';
+import { SlotInterface } from '../interfaces/SlotInterface';
 
 interface SlotProps{
-    slot: Slot;
+    slot: SlotInterface;
     index: number;
     dropDisc: (index: number) => void;
 }
